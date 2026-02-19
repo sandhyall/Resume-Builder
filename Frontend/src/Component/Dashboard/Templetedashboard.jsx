@@ -1,5 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Templetelist from "./Templetelist";
+import axios from "axios";
+
+const api = import.meta.env.VITE_API_URL;
 
 const Templetedashboard = () => {
   const [templete, setTemplete] = useState({
@@ -13,53 +16,78 @@ const Templetedashboard = () => {
   const [editId, setEditId] = useState(null);
   const [fileInputKey, setFileInputKey] = useState(Date.now());
 
+  useEffect(() => {
+    fetchTemplete();
+  }, []);
+
+  const fetchTemplete = async () => {
+    try {
+      const res = await axios.get(`${api}/list`);
+      setTemplatesList(res.data.data || []);
+    } catch (err) {
+      console.log(err);
+      setTemplatesList([]);
+    }
+  };
+
   const handleChange = (e) => {
     const { name, value, files } = e.target;
-
-    if (name === "image") {
-      setTemplete({ ...templete, image: files[0] });
-    } else {
-      setTemplete({ ...templete, [name]: value });
-    }
+    if (name === "image") setTemplete({ ...templete, image: files[0] });
+    else setTemplete({ ...templete, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (editId) {
-      setTemplatesList(
-        templatesList.map((item) =>
-          item.id === editId ? { ...templete, id: editId } : item,
-        ),
-      );
-      setEditId(null);
-    } else {
-      const newTemplate = {
-        id: Date.now(),
-        ...templete,
-      };
-      setTemplatesList([...templatesList, newTemplate]);
+    const formData = new FormData();
+    formData.append("name", templete.name);
+    formData.append("category", templete.category);
+    formData.append("description", templete.description);
+    if (templete.image) formData.append("image", templete.image);
+
+    try {
+      if (editId) {
+        await axios.put(`${api}/${editId}`, formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+        setEditId(null);
+      } else {
+        await axios.post(`${api}/insert`, formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+      }
+
+      setTemplete({ name: "", category: "", description: "", image: null });
+      setFileInputKey(Date.now());
+      fetchTemplete();
+    } catch (err) {
+      console.log(err);
+      alert("Error saving template");
     }
-
-    
-    setTemplete({
-      name: "",
-      category: "",
-      description: "",
-      image: null,
-    });
-
-    setFileInputKey(Date.now());
   };
 
-  const handleDelete = (id) => {
-    setTemplatesList(templatesList.filter((item) => item.id !== id));
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`${api}/${id}`);
+      fetchTemplete();
+    } catch (err) {
+      console.log(err);
+      alert("Error deleting template");
+    }
   };
 
   const handleEdit = (id) => {
-    const selectedTemplate = templatesList.find((item) => item.id === id);
-    setTemplete(selectedTemplate);
+    const selectedTemplate = templatesList.find((item) => item._id === id);
+    if (!selectedTemplate) return;
+
+    setTemplete({
+      name: selectedTemplate.name,
+      category: selectedTemplate.category,
+      description: selectedTemplate.description,
+      image: null,
+    });
     setEditId(id);
+    setFileInputKey(Date.now());
   };
 
   return (
@@ -105,7 +133,7 @@ const Templetedashboard = () => {
               key={fileInputKey}
               type="file"
               name="image"
-              accept="image/*"
+              accept="image/*,application/pdf"
               onChange={handleChange}
               className="w-full text-sm text-gray-500"
             />

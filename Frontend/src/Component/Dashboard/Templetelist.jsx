@@ -1,11 +1,9 @@
 import React from "react";
 
-const Templetelist = ({ templates, handleDelete, handleEdit }) => {
+const Templetelist = ({ templates = [], handleDelete, handleEdit }) => {
   return (
     <div className="mt-10">
-      <h2 className="text-2xl font-bold mb-4 text-gray-800">
-        My Templates
-      </h2>
+      <h2 className="text-2xl font-bold mb-4 text-gray-800">My Templates</h2>
 
       {templates.length === 0 ? (
         <p className="text-gray-500">No templates found</p>
@@ -23,14 +21,16 @@ const Templetelist = ({ templates, handleDelete, handleEdit }) => {
             </thead>
             <tbody>
               {templates.map((item) => (
-                <tr key={item.id} className="text-center hover:bg-gray-50">
+                <tr key={item._id} className="text-center hover:bg-gray-50">
                   <td className="py-2 px-4 border">
-                    {item.image && (
+                    {item.image ? (
                       <img
-                        src={URL.createObjectURL(item.image)}
-                        alt={item.name}
+                        src={`http://localhost:8000/uploads/${item.image}`}
+                        alt={item.name || "template image"}
                         className="w-16 h-12 object-cover mx-auto rounded"
                       />
+                    ) : (
+                      <span className="text-gray-400 text-sm">No Image</span>
                     )}
                   </td>
                   <td className="py-2 px-4 border">{item.name}</td>
@@ -38,13 +38,13 @@ const Templetelist = ({ templates, handleDelete, handleEdit }) => {
                   <td className="py-2 px-4 border">{item.description}</td>
                   <td className="py-2 px-4 border space-x-2">
                     <button
-                      onClick={() => handleEdit(item.id)}
+                      onClick={() => handleEdit(item._id)}
                       className="px-3 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600 transition"
                     >
                       Edit
                     </button>
                     <button
-                      onClick={() => handleDelete(item.id)}
+                      onClick={() => handleDelete(item._id)}
                       className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 transition"
                     >
                       Delete

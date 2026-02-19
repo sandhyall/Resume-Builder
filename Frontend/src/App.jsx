@@ -9,6 +9,8 @@ import Adminlogin from './Pages/Adminlogin'
 import ProtectRoute from './Component/ProtectRoute/ProtectRoute'
 import Admindashboard from './Component/Dashboard/Admindashboard'
 import Templetedashboard from './Component/Dashboard/Templetedashboard'
+import ResumeTemplete from './Component/Temlete/ResumeTemplete'
+import ResumeDetails from './Component/Temlete/ResumeDetails'
 
 const App=()=> {
   return (
@@ -20,7 +22,8 @@ const App=()=> {
         <Route path='' element={<Footer/>}/>
         <Route path='/register' element={<Register/>}/>
          <Route path='/login' element={<Login/>}/>
-         
+         <Route path="/resume" element={<ResumeTemplete/>}/>
+         <Route path='templete/:id' element={<ResumeDetails/>}/>
 
         </Route>
         <Route path='/adminlogin' element={<Adminlogin/>}/>
