@@ -14,6 +14,7 @@ const Templetelist = ({ templates = [], handleDelete, handleEdit }) => {
               <tr>
                 <th className="py-3 px-4 border">Image</th>
                 <th className="py-3 px-4 border">Name</th>
+                <th className="py-3 px-4 border">Type</th>
                 <th className="py-3 px-4 border">Category</th>
                 <th className="py-3 px-4 border">Description</th>
                 <th className="py-3 px-4 border">Actions</th>
@@ -34,6 +35,7 @@ const Templetelist = ({ templates = [], handleDelete, handleEdit }) => {
                     )}
                   </td>
                   <td className="py-2 px-4 border">{item.name}</td>
+                  <td className="py-2 px-4 border">{item.type}</td>
                   <td className="py-2 px-4 border">{item.category}</td>
                   <td className="py-2 px-4 border">{item.description}</td>
                   <td className="py-2 px-4 border space-x-2">
