@@ -8,6 +8,7 @@ const AddTemplateInsert = async (req, res) => {
 
     const template = new Template({
       name,
+      type: type.toLowerCase().trim(), 
       category,
       description,
       image: req.file ? req.file.filename : null,
@@ -73,6 +74,7 @@ const editTemplate = async (req, res) => {
   try {
     const updateData = {
       name: req.body.name,
+      type: req.body.type?.toLowerCase().trim(),
       category: req.body.category,
       description: req.body.description,
     };

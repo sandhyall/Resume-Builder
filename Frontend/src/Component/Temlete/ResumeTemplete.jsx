@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { Link } from "react-router";
 
 const ResumeTemplete = () => {
   const [templete, setTemplate] = useState([]); 
@@ -47,12 +48,16 @@ const ResumeTemplete = () => {
               className="border border-gray-200 rounded-lg overflow-hidden shadow hover:shadow-lg transition-shadow duration-300 bg-white"
             >
               {item.image && (
+                 <Link to={`/templete/${item._id}`}>
+
                 <img
                   src={`http://localhost:8000/uploads/${item.image}`}
                   alt={item.name || "template image"}
                   className="w-full h-auto object-contain"
                 />
+                </Link>
               )}
+
               <div className="p-4">
                 <p className="font-semibold text-gray-800 text-lg">{item.name}</p>
               </div>

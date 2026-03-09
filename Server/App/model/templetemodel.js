@@ -9,6 +9,12 @@ const TemplateSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+     type: {
+      type: String,
+      required: true,
+      lowercase: true,
+      trim: true,
+    },
     category: {
       type: String,
       required: true,

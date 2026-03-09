@@ -2,9 +2,75 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  /* Set default background for whole page */
-  body {
-    @apply bg-amber-50 m-0 p-0 text-gray-900;
+@layer components {
+
+  /* Elegant Input Styling */
+  .form-input {
+    @apply w-full px-4 py-2.5 rounded-lg border border-slate-200 bg-white 
+           text-slate-700 placeholder:text-slate-400 outline-none transition-all
+           focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10;
   }
+
+  /* Section Add Buttons */
+  .add-btn {
+    @apply text-sm font-bold text-blue-600 bg-blue-50 px-3 py-1.5 rounded-md
+           hover:bg-blue-600 hover:text-white transition-all duration-200;
+  }
+
+  /* Main Download Button */
+  .download-btn {
+    @apply flex items-center bg-slate-900 text-white px-6 py-2.5 rounded-lg
+           font-bold text-sm hover:bg-slate-800 active:scale-95 transition-all
+           shadow-lg shadow-slate-200;
+  }
+
+  /* Custom Scrollbar */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-slate-200 rounded-full hover:bg-slate-300;
+  }
+
+  /* Preview Container */
+  .preview-container {
+    height: calc(100vh - 160px);
+  }
+}
+
+
+/* Mobile Responsive */
+@media (max-width: 1024px) {
+
+  .preview-container {
+    height: auto;
+    padding: 8px;
+  }
+
+  .preview-container > div {
+    transform: scale(0.4);
+    transform-origin: top center;
+  }
+
+}
+
+@media (min-width: 1025px) {
+
+  .preview-container > div {
+    transform: scale(0.65);
+  }
+
+}
+
+@media (min-width: 1440px) {
+
+  .preview-container > div {
+    transform: scale(0.85);
+  }
+
 }

@@ -8,6 +8,7 @@ const Templetedashboard = () => {
   const [templete, setTemplete] = useState({
     name: "",
     category: "",
+    type:"",
     description: "",
     image: null,
   });
@@ -42,6 +43,7 @@ const Templetedashboard = () => {
     const formData = new FormData();
     formData.append("name", templete.name);
     formData.append("category", templete.category);
+    formData.append("type", templete.type);
     formData.append("description", templete.description);
     if (templete.image) formData.append("image", templete.image);
 
@@ -117,6 +119,15 @@ const Templetedashboard = () => {
               value={templete.category}
               onChange={handleChange}
               className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+            />
+            <input
+              required
+              type="text"
+              name="type"
+              placeholder="Type (traditional / professional / classic)"
+              value={templete.type}
+              onChange={handleChange}
+              className="w-full p-3 border rounded-lg"
             />
 
             <textarea
